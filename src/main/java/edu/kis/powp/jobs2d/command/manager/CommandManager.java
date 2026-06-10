@@ -1,17 +1,17 @@
 package edu.kis.powp.jobs2d.command.manager;
 
-import java.util.List;
-
-
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ImmutableCompoundCommand;
 import edu.kis.powp.observer.Publisher;
+
+import java.util.List;
 
 /**
  * Driver command Manager.
  */
 public class CommandManager {
     private DriverCommand currentCommand = null;
+    private DriverCommand previousCommand = null;
 
     private Publisher changePublisher = new Publisher();
 
@@ -21,8 +21,13 @@ public class CommandManager {
      * @param commandList Set the command as current.
      */
     public synchronized void setCurrentCommand(DriverCommand commandList) {
+        previousCommand = currentCommand;
         this.currentCommand = commandList;
         changePublisher.notifyObservers();
+    }
+
+    public DriverCommand getPreviousCommand() {
+        return previousCommand;
     }
 
     /**
